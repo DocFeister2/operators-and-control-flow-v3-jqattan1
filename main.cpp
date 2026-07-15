@@ -10,9 +10,13 @@ This exercise in using operators and control structures was created by Scott Fei
 */
 
 #include <iostream>
+#include <string>
+#include <iomanip>
 using namespace std;
 
 int main() {
+
+  cout << showpoint << fixed << setprecision(2);
   // COST FOR FRUIT WHEN BOUGHT INDIVIDUALLY
   const int price_banana = 40; // cents for a single banana, if bought alone
   const int price_apple = 80; // cents for a single apple, if bought alone
@@ -35,14 +39,52 @@ int main() {
   cout << "Enter name of product as a string (e.g. 'apple', 'banana', "
           "'watermelon'): ";
   cin >> product_type;
+  if (product_type != "apple") {
+    if (product_type != "banana") {
+      if (product_type != "watermelon") {
+        cout << "Input must be 'apple', 'banana', or 'watermelon'";
+        return 1;
+      }
+    }
+    
+  }
   cout << "Enter the unit of product, as a string (e.g. 'bunch', 'bag', 'single'): ";
   cin >> unit_type;
+  if (unit_type != "bunch") {
+    if (unit_type != "bag") {
+      if (unit_type != "single") {
+        cout << "Type of unit of product must be 'bunch', 'bag', or 'single'";
+        return 1;
+      }
+    }
+  }
+
+  if (product_type == "apple") {
+    // This can take all types. We are good.
+  } else if (product_type == "banana") {
+    if (unit_type == "bag") {
+      cout << "Bags of bananas cannot be given out at this facility! They must be in 'bunch' or 'single'";
+      return 1;
+    }
+  } else if (product_type == "watermelon") {
+    if (unit_type == "bag" || unit_type == "bunch") {
+      cout << "Bags and bunches of watermelon cannot be given out at this facility! They must be in 'single'";
+      return 1;
+    }
+  }
   cout << "Enter the number of units, as a positive integer: ";
   cin >> quantity;
 
   // OFFER USER AN OPTIONAL DISCOUNT
   cout << "Congratulations! You've been selected for a special promotion! Would you like to add one more unit to your cart and receive a 10% discount overall (y/n)?";
   cin >> accept_sale;
+
+  if (accept_sale != "y") {
+    if (accept_sale != "n") {
+      cout << "You must either type 'y' or 'n' to continue" << endl;
+      return 1;
+    }
+  }
 
   // DO NOT EDIT ABOVE THIS LINE!
 
@@ -69,9 +111,29 @@ int main() {
     total_cost = quantity * (price_banana / 100.); // total cost in dollars
     //...
   }
-  if (product_type == "banana") && (unit_type == "bunch")) {
-    total_cost = quantity *   //...
+  if ((product_type == "banana") && (unit_type == "bunch")) {
+    total_cost = quantity * (price_bunch_bananas); //...
     //...
+  }
+
+  if (product_type == "banana") {
+    item_cost = price_banana / 100.;
+  }
+
+  if (product_type == "apple") {
+    item_cost = price_apple / 100.;
+    if (unit_type == "single") {
+      total_cost = quantity * (price_apple / 100.);
+    } else if (unit_type == "bag" || unit_type == "bunch") {
+      total_cost = quantity * (price_bag_apples);
+    }
+  }
+
+  if (product_type == "watermelon") {
+    item_cost = price_watermelon / 100.;
+    if (unit_type == "single") {
+      total_cost = quantity * (price_watermelon / 100.);
+    }
   }
   //...
   //...
@@ -79,6 +141,12 @@ int main() {
 
   // TODO: APPLY THE OPTIONAL DISCOUNT TO FINAL TOTAL COST
   //...
+  if (accept_sale == "y") {
+    cout << "Previous Price: $" << total_cost << endl;
+    total_cost *= 0.9;
+    cout << "Your new cost after discount is $" << total_cost << endl;
+  }
+  
 
       
   // DO NOT EDIT BELOW THIS LINE!
@@ -87,6 +155,7 @@ int main() {
   cout << "Your total cost will be : $" << total_cost << endl;
   cout << "Your cost per " << product_type << " will be : $" << item_cost
        << endl;
+  
 
   return 0;
 }
